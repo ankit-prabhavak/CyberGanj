@@ -483,88 +483,148 @@
     </section>
 
     <!-- Meet Our Team Section -->
-    <section class="section">
-        <h2>Meet Our Team</h2>
-        <p style="text-align: center; margin-bottom: 2rem; font-size: 1.2rem;">Meet the passionate minds driving CyberGanj — a team united by the vision of a safer, smarter digital future for all.</p>
-        
-        <div class="team-grid">
-           <div class="team-member">
-    <img src="{{ url_for('static', filename='images/ankit.jpg') }}" alt="Ankit - Founder & Developer" class="team-photo">
-    <h3>Ankit Prabhavak</h3>
-    <h4>Founder & Developer</h4>
-    <p>I'm a B.Tech CSE student with a strong interest in cybersecurity. I built CyberGanj from scratch — writing the logic, developing features, and shaping the platform to spread awareness and share what I’m learning along the way.</p>
-    <div class="social-icons">
-        <!-- <a href="https://linkedin.com/in/ankit-prabhavak"><i class="fab fa-linkedin"></i></a>
-        <a href="https://x.com/ankit_prabhavak"><i class="fab fa-twitter"></i></a>
-        <a href="https://github.com/ankit-prabhavak"><i class="fas fa-github"></i></a> -->
-        <a href="https://instagram.com/ankit_prabhavak" aria-label="Like us on Instagram"><img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram"></a>
-        <a href="https://linkedin.com/in/ankit-prabhavak" aria-label="Follow us on LinkedIn"><img src="{{ url_for('static', filename='images/linkedin.png') }}" alt="LinkedIn"></a>
-        <a href="https://github.com/ankit-prabhavak" aria-label="Visit our GitHub repository"><img src="{{ url_for('static', filename='images/github.webp') }}" alt="GitHub"></a>
-                        
+<section class="section">
+    <h2>Meet Our Team</h2>
+    <p style="text-align: center; margin-bottom: 2rem; font-size: 1.2rem;">
+        Meet the talented team behind CyberGanj. Combining expertise in software development, cybersecurity research, UI/UX design, technical writing, and community outreach, we work together to build an accessible platform that promotes cybersecurity awareness, digital safety, and secure online practices for everyone.
+    </p>
+
+    <div class="team-grid">
+
+        <!-- Founder -->
+        <div class="team-member">
+            <img src="{{ url_for('static', filename='images/ankit.jpg') }}" alt="Ankit - Founder & Lead Developer" class="team-photo">
+            <h3>Ankit Prabhavak</h3>
+            <h4>Founder & Lead Developer</h4>
+            <p>
+                Ankit is the founder and lead developer behind CyberGanj. He architected the platform, designed the application workflow, developed the Flask backend, created interactive cybersecurity tools, and implemented the responsive frontend using HTML, CSS, JavaScript, and Jinja templates. He oversees feature development, security practices, deployment, and the overall technical direction of the project.
+            </p>
+
+            <div class="social-icons">
+                <a href="https://instagram.com/ankit_prabhavak" aria-label="Instagram">
+                    <img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram">
+                </a>
+                <a href="https://linkedin.com/in/ankit-prabhavak" aria-label="LinkedIn">
+                    <img src="{{ url_for('static', filename='images/linkedin.png') }}" alt="LinkedIn">
+                </a>
+                <a href="https://github.com/ankit-prabhavak" aria-label="GitHub">
+                    <img src="{{ url_for('static', filename='images/github.webp') }}" alt="GitHub">
+                </a>
+            </div>
+        </div>
+
+        <!-- Full Stack Developer -->
+        <div class="team-member">
+            <img src="{{ url_for('static', filename='images/abhijeet.jpg') }}" alt="Abhijeet - Full Stack Developer" class="team-photo">
+            <h3>Abhijeet</h3>
+            <h4>Full Stack Developer</h4>
+            <p>
+                Abhijeet plays a key role in developing and maintaining CyberGanj's full-stack architecture. He builds responsive frontend interfaces, integrates backend APIs, optimizes application performance, and ensures smooth communication between the Flask backend, Jinja templates, and client-side components. His work focuses on delivering a fast, scalable, and reliable experience for every user.
+            </p>
+
+            <div class="social-icons">
+                <a href="#" aria-label="Instagram">
+                    <img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram">
+                </a>
+                <a href="https://www.linkedin.com/in/jeetabhig/" aria-label="LinkedIn">
+                    <img src="{{ url_for('static', filename='images/linkedin.png') }}" alt="LinkedIn">
+                </a>
+                <a href="https://github.com/AbhijeetER" aria-label="GitHub">
+                    <img src="{{ url_for('static', filename='images/github.webp') }}" alt="GitHub">
+                </a>
+            </div>
+        </div>
+
+        <!-- Research -->
+        <div class="team-member">
+            <img src="{{ url_for('static', filename='images/abhinav.jpg') }}" alt="Abhinav - Cybersecurity Research Lead" class="team-photo">
+            <h3>Abhinav Mishra</h3>
+            <h4>Cybersecurity Research Lead</h4>
+            <p>
+                Abhinav leads cybersecurity research and technical content at CyberGanj. He studies emerging cyber threats, security frameworks, privacy regulations, and government policies while creating educational articles that simplify complex cybersecurity concepts into practical knowledge for students and everyday internet users.
+            </p>
+
+            <div class="social-icons">
+                <a href="https://instagram.com/abhi2804_" aria-label="Instagram">
+                    <img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram">
+                </a>
+                <a href="https://www.linkedin.com/in/abhinav-mishra-252234329?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BS9q4snDrTjSSzj4D7UhqBg%3D%3D" aria-label="LinkedIn">
+                    <img src="{{ url_for('static', filename='images/linkedin.png') }}" alt="LinkedIn">
+                </a>
+                <a href="https://github.com/aabhi-999" aria-label="GitHub">
+                    <img src="{{ url_for('static', filename='images/github.webp') }}" alt="GitHub">
+                </a>
+            </div>
+        </div>
+
+        <!-- Technical Content -->
+        <div class="team-member">
+            <img src="{{ url_for('static', filename='images/kavy.jpg') }}" alt="Kavya - Technical Content Writer" class="team-photo">
+            <h3>Kavya Chaturvedi</h3>
+            <h4>Technical Content Writer</h4>
+            <p>
+                Kavya develops educational content that makes cybersecurity simple and engaging. From awareness articles and tutorials to documentation and learning resources, she ensures every piece of content is technically accurate, well-structured, and easy to understand for users of all experience levels.
+            </p>
+
+            <div class="social-icons">
+                <a href="https://instagram.com/kavy___17" aria-label="Instagram">
+                    <img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram">
+                </a>
+                <a href="https://www.linkedin.com/in/kavya-chaturvedi-1a181932a?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BPkVa8qsSRvW9CBxs%2F03pfQ%3D%3D" aria-label="LinkedIn">
+                    <img src="{{ url_for('static', filename='images/linkedin.png') }}" alt="LinkedIn">
+                </a>
+                <a href="https://github.com/Kavychaturvedi5427" aria-label="GitHub">
+                    <img src="{{ url_for('static', filename='images/github.webp') }}" alt="GitHub">
+                </a>
+            </div>
+        </div>
+
+        <!-- UI/UX -->
+        <div class="team-member">
+            <img src="{{ url_for('static', filename='images/anmol.jpg') }}" alt="Anmol - UI/UX Designer" class="team-photo">
+            <h3>Anmol Gupta</h3>
+            <h4>UI/UX Designer</h4>
+            <p>
+                Anmol is responsible for CyberGanj's user interface and visual identity. He designs modern, responsive, and accessible layouts while improving navigation, usability, and overall user experience to ensure the platform remains intuitive across desktop, tablet, and mobile devices.
+            </p>
+
+            <div class="social-icons">
+                <a href="https://instagram.com/itz.anmol_gupta" aria-label="Instagram">
+                    <img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram">
+                </a>
+                <a href="https://www.linkedin.com/in/anmol-gupta-714933308?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3Bnhd7KoLJQbimh9MNkWM6Rw%3D%3D" aria-label="LinkedIn">
+                    <img src="{{ url_for('static', filename='images/linkedin.png') }}" alt="LinkedIn">
+                </a>
+                <a href="https://github.com/anmolgupta2704" aria-label="GitHub">
+                    <img src="{{ url_for('static', filename='images/github.webp') }}" alt="GitHub">
+                </a>
+            </div>
+        </div>
+
+        <!-- Outreach -->
+        <div class="team-member">
+            <img src="{{ url_for('static', filename='images/devra.jpg') }}" alt="Devashish - Community & Outreach Coordinator" class="team-photo">
+            <h3>Devashish Tripathi</h3>
+            <h4>Community & Outreach Coordinator</h4>
+            <p>
+                Devashish leads CyberGanj's outreach initiatives by connecting with educational institutions, student communities, and cybersecurity organizations. He coordinates awareness campaigns, workshops, and collaborative events to promote cyber hygiene and responsible digital practices across a wider audience.
+            </p>
+
+            <div class="social-icons">
+                <a href="https://instagram.com/_tripathiji935" aria-label="Instagram">
+                    <img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram">
+                </a>
+                <a href="https://www.linkedin.com/in/devashish-tripathi-046b022a6?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B6zNDzRRXTzmIO2AU6dEzcA%3D%3D" aria-label="LinkedIn">
+                    <img src="{{ url_for('static', filename='images/linkedin.png') }}" alt="LinkedIn">
+                </a>
+                <a href="https://github.com/dev22720" aria-label="GitHub">
+                    <img src="{{ url_for('static', filename='images/github.webp') }}" alt="GitHub">
+                </a>
+            </div>
+        </div>
+
     </div>
-</div>
-
-
-
-<div class="team-member">
-    <img src="{{ url_for('static', filename='images/kavy.jpg') }}" alt="Kavya - Content Contributor" class="team-photo">
-    <h3>Kavya Chaturvedi</h3>
-    <h4>Content Contributor</h4>
-    <p>Kavya helped bring clarity to our content. With a knack for simplifying technical topics, he worked on drafting explanations and ensuring our messages are easy to follow for everyone visiting the site.</p>
-    <div class="social-icons">
-        <a href="https://instagram.com/kavy___17" aria-label="Like us on Instagram"><img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram"></a>
-        <a href="https://www.linkedin.com/in/kavya-chaturvedi-1a181932a?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BPkVa8qsSRvW9CBxs%2F03pfQ%3D%3D" aria-label="Follow us on LinkedIn"><img src="{{ url_for('static', filename='images/linkedin.png') }}" alt="LinkedIn"></a>
-        <a href="https://github.com/Kavychaturvedi5427" aria-label="Visit our GitHub repository"><img src="{{ url_for('static', filename='images/github.webp') }}" alt="GitHub"></a>
-
-    </div>
-</div>
-
-<div class="team-member">
-    <img src="{{ url_for('static', filename='images/anmol.jpg') }}" alt="Anmol - UI Designer" class="team-photo">
-    <h3>Anmol Gupta</h3>
-    <h4>UI Designer</h4>
-    <p>Anmol significantly contributed to the visual design of CyberGanj. He helped shape the overall layout, color palette, and interface styling to give the site a modern, clean, and user-friendly look.</p>
-    <div class="social-icons">
-        <a href="https://instagram.com/itz.anmol_gupta" aria-label="Like us on Instagram"><img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram"></a>
-        <a href="https://www.linkedin.com/in/anmol-gupta-714933308?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3Bnhd7KoLJQbimh9MNkWM6Rw%3D%3D" aria-label="Follow us on LinkedIn"><img src="{{ url_for('static', filename='images/linkedin.png') }}" alt="LinkedIn"></a>
-        <a href="https://github.com/anmolgupta2704" aria-label="Visit our GitHub repository"><img src="{{ url_for('static', filename='images/github.webp') }}" alt="GitHub"></a>   
-    </div>
-</div>
-
-<div class="team-member">
-    <img src="{{ url_for('static', filename='images/abhinav.jpg') }}" alt="Abhinav - Research & Policy Contributor" class="team-photo">
-    <h3>Abhinav Mishra</h3>
-    <h4>Research & Policy Contributor</h4>
-    <p>Abhinav is our go-to expert on cybersecurity laws and policies. He researches the latest regulations, creates content that simplifies complex laws, and writes articles to ensure that the Indian public is informed about their digital rights and responsibilities.</p>
-    <div class="social-icons">
-        <a href="https://instagram.com/abhi2804_" aria-label="Like us on Instagram"><img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram"></a>
-        <a href="https://www.linkedin.com/in/abhinav-mishra-252234329?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BS9q4snDrTjSSzj4D7UhqBg%3D%3D" aria-label="Follow us on LinkedIn"><img src="{{ url_for('static', filename='images/linkedin.png') }}" alt="LinkedIn"></a>
-        <a href="https://github.com/aabhi-999" aria-label="Visit our GitHub repository"><img src="{{ url_for('static', filename='images/github.webp') }}" alt="GitHub"></a>
-    </div>
-</div>
-<div class="team-member">
-    <img src="{{ url_for('static', filename='images/devra.jpg') }}" alt="Dev - Outreach Coordinator" class="team-photo">
-    <h3>Devashish Tripathi</h3>
-    <h4>Outreach Coordinator</h4>
-    <p>Devashish is dedicated to spreading CyberGanj's message across various platforms. He engages with educational institutions, student bodies, and cybersecurity communities to organize awareness campaigns and drives that promote safe digital practices.</p>
-    <div class="social-icons">
-        <a href="https://instagram.com/_tripathiji935" aria-label="Like us on Instagram"><img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram"></a>
-        <a href="https://www.linkedin.com/in/devashish-tripathi-046b022a6?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B6zNDzRRXTzmIO2AU6dEzcA%3D%3D" aria-label="Follow us on LinkedIn"><img src="{{ url_for('static', filename='images/linkedin.png') }}" alt="LinkedIn"></a>
-        <a href="https://github.com/dev22720" aria-label="Visit our GitHub repository"><img src="{{ url_for('static', filename='images/github.webp') }}" alt="GitHub"></a>
-    </div>
-</div>
-<div class="team-member">
-    <img src="{{ url_for('static', filename='images/to.jpg') }}" alt="Join Us" class="team-photo">
-    <h3>Next: Your Name Here!</h3>
-    <h4>Cybersecurity Contributor</h4>
-    <p>Do you have a passion for cybersecurity, digital safety, or tech outreach? Join the CyberGanj team and make a real impact. We welcome creative minds who want to raise cybersecurity awareness across India.</p>
-    <div class="social-icons">
-        <a href="#" aria-label="Instagram placeholder"><img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram"></a>
-        <a href="#" aria-label="LinkedIn placeholder"><img src="{{ url_for('static', filename='images/linkedin.png') }}" alt="LinkedIn"></a>
-        <a href="#" aria-label="GitHub placeholder"><img src="{{ url_for('static', filename='images/github.webp') }}" alt="GitHub"></a>
-    </div>
-</div>
-
+</section>
             
         
         </div>
