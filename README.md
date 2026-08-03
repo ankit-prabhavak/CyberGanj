@@ -1,7 +1,3 @@
-Here is a standardized, well-structured `README.md` tailored to your stack—incorporating PostgreSQL, authentication, image processing/steganography dependencies, and production deployment configuration.
-
----
-
 # CyberGanj
 
 **CyberGanj** is an interactive educational web platform designed to promote cybersecurity awareness, digital safety, and privacy best practices. It combines theory with hands-on security tools—such as password health checkers, phishing simulation modules, and digital image processing/steganography tools—to help users build robust online security habits.
