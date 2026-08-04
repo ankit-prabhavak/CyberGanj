@@ -19,16 +19,19 @@ class Config:
         SQLALCHEMY_DATABASE_URI = f"sqlite:///{os.path.join(basedir, 'instance', 'users.db')}"
     
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_ENGINE_OPTIONS = {
-        "pool_recycle": 300,
-        "pool_pre_ping": True,
-        "pool_size": 5,
-        "max_overflow": 10,
-        "pool_timeout": 30,
-        "connect_args": {
-            "sslmode": "require"
+    if DATABASE_URL:
+        SQLALCHEMY_ENGINE_OPTIONS = {
+            "pool_recycle": 300,
+            "pool_pre_ping": True,
+            "pool_size": 5,
+            "max_overflow": 10,
+            "pool_timeout": 30,
+            "connect_args": {
+                "sslmode": "require"
+            }
         }
-    }
+    else:
+        SQLALCHEMY_ENGINE_OPTIONS = {}
 
     APP_NAME = 'CyberGanj'
     APP_DESCRIPTION = 'Your go-to resource for cybersecurity awareness and education'
