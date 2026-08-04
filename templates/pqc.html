@@ -1,0 +1,881 @@
+{% extends 'base.html' %}
+
+{% block title %}Post-Quantum Cryptography (PQC) - CyberGanj{% endblock %}
+
+{% block extra_css %}
+    <style>
+        /* PQC-specific styles — mirrors malware/phishing article styling */
+        .pqc-hero {
+            background: linear-gradient(rgba(11, 17, 40, 0.95), rgba(30, 48, 80, 0.92));
+            color: #fff;
+            text-align: center;
+            padding: 80px 20px;
+            margin-bottom: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+        .pqc-hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(ellipse at 60% 40%, rgba(52, 152, 219, 0.18) 0%, transparent 70%),
+                        radial-gradient(ellipse at 20% 80%, rgba(155, 89, 182, 0.15) 0%, transparent 60%);
+            z-index: 0;
+        }
+        /* Subtle animated grid overlay */
+        .pqc-hero::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image:
+                linear-gradient(rgba(52,152,219,0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(52,152,219,0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 0;
+            animation: gridMove 20s linear infinite;
+        }
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 40px 40px; }
+        }
+        .pqc-hero h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(135deg, #fff 40%, #3498db 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .pqc-hero p {
+            font-size: 1.3em;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            color: #c8d6e5;
+        }
+        .hero-badges {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 24px;
+            position: relative;
+            z-index: 1;
+            flex-wrap: wrap;
+        }
+        .hero-badge {
+            background: rgba(52, 152, 219, 0.2);
+            border: 1px solid rgba(52, 152, 219, 0.4);
+            color: #7dc6f0;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .section {
+            padding: 50px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section h2 {
+            color: #162447;
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            border-bottom: none;
+            display: inline-block;
+        }
+        .section h3 {
+            color: #0f3460;
+            font-size: 1.6em;
+            margin: 20px 0 15px;
+        }
+        .section p, .section ul {
+            font-size: 1.15em;
+            line-height: 1.7;
+            color: #333;
+        }
+        .section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .section ul li {
+            margin-bottom: 18px;
+            position: relative;
+            padding-left: 35px;
+        }
+        .section ul li::before {
+            content: '\f006';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: #3498db;
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+        .example-box {
+            background: #f7f7f7;
+            border-left: 6px solid #e94560;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .example-box h3 { color: #162447; margin-top: 0; }
+        .tip-box {
+            background: #e6f3ff;
+            border-left: 6px solid #0f3460;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .tip-box h3 { color: #0f3460; margin-top: 0; }
+        .warning-box {
+            background: #fff3e6;
+            border-left: 6px solid #ff6b6b;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .warning-box h3 { color: #ff6b6b; margin-top: 0; }
+        .cta-button {
+            display: inline-block;
+            padding: 14px 28px;
+            background: var(--secondary-color);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.2s;
+            margin-top: 25px;
+        }
+        .cta-button:hover {
+            background-color: var(--secondary-dark);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Statistics Grid */
+        .pqc-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .stat-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .stat-card h3 {
+            font-size: 2.5em;
+            color: #3498db;
+            margin: 0;
+        }
+        .stat-card p { font-size: 1em; color: #333; }
+
+        /* Algorithm Cards */
+        .algo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .algo-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-top: 4px solid #3498db;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .algo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .algo-card h3 {
+            color: #162447;
+            font-size: 1.2em;
+            margin-bottom: 8px;
+        }
+        .algo-card .algo-tag {
+            display: inline-block;
+            background: #e6f3ff;
+            color: #0f3460;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .algo-card p { font-size: 0.95em; color: #444; margin: 0; }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            margin: 30px 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px; top: 0; bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, #3498db, #9b59b6);
+            border-radius: 2px;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 28px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 6px;
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            background: #3498db;
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 2px #3498db;
+        }
+        .timeline-item .year {
+            font-weight: 700;
+            color: #3498db;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .timeline-item p {
+            font-size: 1.05em;
+            color: #333;
+            margin: 4px 0 0;
+        }
+
+        /* xors.in Showcase Section */
+        .xors-section {
+            background: linear-gradient(135deg, #0b1128 0%, #162447 50%, #0f3460 100%);
+            padding: 60px 20px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .xors-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image:
+                linear-gradient(rgba(52,152,219,0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(52,152,219,0.06) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+        .xors-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .xors-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .xors-header .label {
+            display: inline-block;
+            background: rgba(52,152,219,0.2);
+            border: 1px solid rgba(52,152,219,0.4);
+            color: #7dc6f0;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+        .xors-header h2 {
+            font-size: 2.2em;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+        .xors-header h2 span {
+            color: #3498db;
+        }
+        .xors-header p {
+            color: #a0b4c8;
+            font-size: 1.1em;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .xors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        .xors-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(52,152,219,0.2);
+            border-radius: 12px;
+            padding: 28px;
+            transition: background 0.3s, transform 0.3s;
+        }
+        .xors-card:hover {
+            background: rgba(52,152,219,0.1);
+            transform: translateY(-4px);
+        }
+        .xors-card .icon {
+            width: 48px; height: 48px;
+            background: rgba(52,152,219,0.15);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4em;
+            color: #3498db;
+            margin-bottom: 16px;
+        }
+        .xors-card h3 {
+            color: #fff;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        .xors-card p {
+            color: #a0b4c8;
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin: 0;
+        }
+        .xors-cta {
+            text-align: center;
+            margin-top: 40px;
+        }
+        .xors-cta a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            background: #3498db;
+            color: #fff;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1em;
+            text-decoration: none;
+            transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+        }
+        .xors-cta a:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(52,152,219,0.35);
+        }
+        .xors-quote {
+            border: 1px solid rgba(52,152,219,0.25);
+            background: rgba(52,152,219,0.07);
+            border-radius: 12px;
+            padding: 28px 32px;
+            margin: 36px 0;
+            position: relative;
+        }
+        .xors-quote::before {
+            content: '\201C';
+            position: absolute;
+            top: -16px; left: 24px;
+            font-size: 5em;
+            color: #3498db;
+            line-height: 1;
+            font-family: Georgia, serif;
+            opacity: 0.5;
+        }
+        .xors-quote p {
+            color: #c8d6e5;
+            font-size: 1.05em;
+            font-style: italic;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        /* Action Cards */
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .action-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-top: 4px solid transparent;
+        }
+        .action-card.individual { border-top-color: #27ae60; }
+        .action-card.developer  { border-top-color: #3498db; }
+        .action-card.enterprise { border-top-color: #9b59b6; }
+        .action-card h3 {
+            color: #162447;
+            font-size: 1.1em;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .action-card h3 i { font-size: 1.1em; }
+        .individual h3 i { color: #27ae60; }
+        .developer  h3 i { color: #3498db; }
+        .enterprise h3 i { color: #9b59b6; }
+        .action-card ul {
+            list-style: disc;
+            padding-left: 18px;
+        }
+        .action-card ul li {
+            font-size: 0.95em;
+            color: #444;
+            margin-bottom: 8px;
+            padding-left: 0;
+        }
+        .action-card ul li::before { display: none; }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 60px 0;
+            background-color: #e0e0e0;
+        }
+        .faq-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .faq-item {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .faq-toggle { display: none; }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            transition: background 0.3s;
+        }
+        .faq-question:hover { background: #f1f1f1; }
+        .faq-question i { transition: transform 0.3s; }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            padding: 0 20px;
+        }
+        .faq-answer p {
+            margin: 0;
+            padding: 20px 0;
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.6;
+        }
+        .faq-toggle:checked + .faq-question + .faq-answer {
+            max-height: 500px;
+        }
+        .faq-toggle:checked + .faq-question i {
+            transform: rotate(180deg);
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: #333;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .pqc-hero h1   { font-size: 2em; }
+            .pqc-hero p    { font-size: 1.1em; }
+            .section       { padding: 30px 15px; }
+            .section h2    { font-size: 1.8em; }
+            .stat-card h3  { font-size: 2em; }
+            .xors-header h2 { font-size: 1.6em; }
+            .section-title h2 { font-size: 2rem; }
+            .faq-question  { font-size: 1rem; }
+            .faq-answer p  { font-size: 0.9rem; }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+<!-- ── HERO ─────────────────────────────────────────────────── -->
+<section class="pqc-hero">
+    <h1>Post-Quantum Cryptography</h1>
+    <p>Quantum computers are coming. The encryption protecting your data today may be shattered tomorrow. Learn what Post-Quantum Cryptography is, why it matters, and how the world — including companies like <strong>xors.in</strong> — is already adapting.</p>
+    <div class="hero-badges">
+        <span class="hero-badge"><i class="fas fa-atom"></i> Quantum-Safe</span>
+        <span class="hero-badge"><i class="fas fa-certificate"></i> NIST Standardised 2024</span>
+        <span class="hero-badge"><i class="fas fa-globe"></i> India-Relevant</span>
+        <span class="hero-badge"><i class="fas fa-shield-alt"></i> Future of Security</span>
+    </div>
+    <a href="#learn-more" class="cta-button" style="margin-top: 32px; display: inline-block; background: rgba(52,152,219,0.85); border: 1px solid rgba(52,152,219,0.6);">Explore PQC</a>
+</section>
+
+<!-- ── WHAT IS PQC ──────────────────────────────────────────── -->
+<section class="section" id="learn-more">
+    <h2>What is Post-Quantum Cryptography?</h2>
+    <p>Post-Quantum Cryptography (PQC) refers to cryptographic algorithms that are designed to be secure against attacks from both classical and quantum computers. Today's encryption standards — RSA, ECC (Elliptic Curve Cryptography), and Diffie-Hellman — rely on mathematical problems that are very hard for classical computers to solve. But a sufficiently powerful quantum computer running <strong>Shor's Algorithm</strong> can solve these problems in polynomial time, effectively breaking them.</p>
+    <p>PQC replaces these vulnerable algorithms with new ones based on mathematical problems believed to be resistant even to quantum computers — like lattice problems, hash functions, and error-correcting codes.</p>
+    <div class="example-box">
+        <h3>A Simple Analogy</h3>
+        <p>Imagine your front door lock (RSA encryption) is unbreakable by any human thief (classical computer). Now imagine someone invents a master key machine (quantum computer) that can crack any lock in seconds. PQC is like installing a brand-new type of lock that the master key machine simply cannot work on.</p>
+    </div>
+    <div class="warning-box">
+        <h3>The "Harvest Now, Decrypt Later" (HNDL) Threat</h3>
+        <p>Nation-state adversaries are <strong>already collecting encrypted internet traffic today</strong> with the intent to decrypt it once quantum computers become powerful enough. This means data encrypted right now — medical records, financial transactions, classified communications — is at risk in the future. The clock has already started.</p>
+    </div>
+</section>
+
+<!-- ── WHY WE NEED IT ──────────────────────────────────────── -->
+<section class="section" style="background:#f5f7fa;">
+    <h2>Why Do We Need PQC?</h2>
+    <p>The need for PQC is driven by three converging forces: the advancing power of quantum hardware, the timelines for cryptographic migration, and the long-lived sensitivity of data.</p>
+    <ul>
+        <li><strong>Quantum Hardware Progress:</strong> IBM, Google, and China's national labs have demonstrated 1,000+ qubit processors. Cryptographically relevant quantum computers are estimated to arrive within 10–15 years.</li>
+        <li><strong>Cryptographic Migration Takes Time:</strong> Migrating the entire internet's infrastructure took 10+ years for TLS 1.2 → 1.3. PQC migration must start now.</li>
+        <li><strong>Long-Lived Sensitive Data:</strong> Government secrets, medical records, and intellectual property need to remain confidential for 25–50 years — long after quantum computers arrive.</li>
+        <li><strong>NIST's Mandate:</strong> The US National Institute of Standards and Technology (NIST) finalised the first PQC standards in August 2024, signalling it is no longer theoretical.</li>
+        <li><strong>India's Digital Future:</strong> India's UPI, Aadhaar, DigiLocker and banking systems process billions of encrypted transactions daily — all vulnerable to quantum attacks without migration.</li>
+    </ul>
+    <div class="tip-box">
+        <h3>Did You Know?</h3>
+        <p>The NSA announced in 2022 that it would not approve new RSA or ECC deployments for national security systems, explicitly citing the quantum threat. The private sector is expected to follow.</p>
+    </div>
+</section>
+
+<!-- ── NIST STANDARDS ──────────────────────────────────────── -->
+<section class="section">
+    <h2>NIST PQC Standards (2024)</h2>
+    <p>After an 8-year global competition, NIST standardised four PQC algorithms in August 2024. These are the algorithms the world will migrate to:</p>
+    <div class="algo-grid">
+        <div class="algo-card">
+            <h3><i class="fas fa-lock" style="color:#3498db; margin-right:8px;"></i> ML-KEM</h3>
+            <span class="algo-tag">Key Encapsulation</span>
+            <p>Based on CRYSTALS-Kyber. Used to securely exchange encryption keys over a public channel. The PQC replacement for RSA and Diffie-Hellman key exchange. Fast and compact — ideal for web and mobile.</p>
+        </div>
+        <div class="algo-card">
+            <h3><i class="fas fa-signature" style="color:#9b59b6; margin-right:8px;"></i> ML-DSA</h3>
+            <span class="algo-tag">Digital Signature</span>
+            <p>Based on CRYSTALS-Dilithium. Used to verify that a message or piece of software genuinely came from who it claims. Replaces RSA and ECDSA signatures used in certificates and code signing.</p>
+        </div>
+        <div class="algo-card">
+            <h3><i class="fas fa-hashtag" style="color:#27ae60; margin-right:8px;"></i> SLH-DSA</h3>
+            <span class="algo-tag">Digital Signature</span>
+            <p>Based on SPHINCS+. A hash-based signature scheme with the simplest security assumptions — it relies only on the security of the hash function, not complex algebraic structures.</p>
+        </div>
+        <div class="algo-card">
+            <h3><i class="fas fa-feather-alt" style="color:#e67e22; margin-right:8px;"></i> FN-DSA</h3>
+            <span class="algo-tag">Digital Signature</span>
+            <p>Based on FALCON. A lattice-based signature with very compact signature sizes. Particularly suited for constrained environments like IoT devices and embedded systems.</p>
+        </div>
+    </div>
+    <div class="tip-box">
+        <h3>What About Symmetric Encryption (AES)?</h3>
+        <p>AES-256 and SHA-3 are considered quantum-safe already, because Grover's Algorithm only offers a quadratic speedup against symmetric ciphers — effectively halving the key length. AES-256 remains secure even against quantum attacks.</p>
+    </div>
+</section>
+
+<!-- ── HOW IT WORKS ────────────────────────────────────────── -->
+<section class="section" style="background:#f5f7fa;">
+    <h2>How Does PQC Actually Work?</h2>
+    <p>PQC algorithms are based on mathematical problems that are hard for <em>both</em> classical and quantum computers. Here are the main families:</p>
+    <ul>
+        <li><strong>Lattice-Based (ML-KEM, ML-DSA, FN-DSA):</strong> Security relies on the <em>Learning With Errors (LWE)</em> problem — finding a hidden structure in a high-dimensional noisy grid. Imagine finding a specific grain of sand on a beach, except the beach has millions of dimensions.</li>
+        <li><strong>Hash-Based (SLH-DSA):</strong> Security relies entirely on the one-way property of cryptographic hash functions. If SHA-3 is secure, SLH-DSA is secure. Simple, conservative, and trusted.</li>
+        <li><strong>Code-Based:</strong> Based on the hardness of decoding random linear error-correcting codes. This family has roots going back to 1978 (McEliece cryptosystem) — one of the longest-standing unbroken cryptographic proposals.</li>
+        <li><strong>Multivariate Polynomial:</strong> Solving systems of multivariate polynomial equations over finite fields. Very compact signatures, though key sizes can be large.</li>
+        <li><strong>Isogeny-Based:</strong> Uses mappings between elliptic curves. Very compact keys, but the most mathematically complex — and one candidate (SIKE) was broken in 2022, showing the need for rigorous evaluation.</li>
+    </ul>
+    <div class="example-box">
+        <h3>Lattice-Based Crypto in Plain English</h3>
+        <p>Think of a 2D grid (lattice) with a secret "shortest path" through it. The public key is the scrambled grid. The private key is the hidden shortest path. Encrypting is easy (anyone can put a message on the grid). Decrypting requires knowing the secret path. Quantum computers are no better than classical ones at finding this path — that's the magic.</p>
+    </div>
+</section>
+
+<!-- ── STATISTICS ──────────────────────────────────────────── -->
+<section class="section">
+    <h2>PQC by the Numbers</h2>
+    <p>The urgency of the PQC transition is reflected in global investment and timelines:</p>
+    <div class="pqc-stats">
+        <div class="stat-card">
+            <h3>2024</h3>
+            <p>Year NIST published the first finalised PQC standards (FIPS 203, 204, 205) — a historic milestone.</p>
+        </div>
+        <div class="stat-card">
+            <h3>$850M+</h3>
+            <p>US government allocated for quantum-safe infrastructure migration across federal agencies by 2035.</p>
+        </div>
+        <div class="stat-card">
+            <h3>10–15 yrs</h3>
+            <p>Estimated window before cryptographically-relevant quantum computers (CRQCs) can break RSA-2048.</p>
+        </div>
+        <div class="stat-card">
+            <h3>70%</h3>
+            <p>of enterprise security teams say they have not yet begun PQC migration planning, per Gartner (2024).</p>
+        </div>
+    </div>
+
+    <h3 style="margin-top: 40px;">The PQC Timeline</h3>
+    <div class="timeline">
+        <div class="timeline-item">
+            <div class="year">2016</div>
+            <p>NIST launches global PQC standardisation competition. 69 algorithms submitted from 25 countries.</p>
+        </div>
+        <div class="timeline-item">
+            <div class="year">2019–2022</div>
+            <p>Multiple rounds of evaluation. CRYSTALS-Kyber, Dilithium, FALCON, SPHINCS+ selected as finalists.</p>
+        </div>
+        <div class="timeline-item">
+            <div class="year">July 2022</div>
+            <p>SIKE — a popular isogeny-based candidate — is completely broken by a classical computer in under an hour, demonstrating the importance of rigorous evaluation.</p>
+        </div>
+        <div class="timeline-item">
+            <div class="year">August 2024</div>
+            <p><strong>NIST publishes FIPS 203, 204, and 205</strong> — the world's first official PQC standards. The migration era officially begins.</p>
+        </div>
+        <div class="timeline-item">
+            <div class="year">2025–2030</div>
+            <p>Major browsers, operating systems, cloud providers (Google, AWS, Cloudflare, Apple) roll out PQC in TLS, VPN, and app-layer encryption. Early adopters like <strong>xors.in</strong> lead the way in India.</p>
+        </div>
+        <div class="timeline-item">
+            <div class="year">2035 (target)</div>
+            <p>US federal systems mandated to complete full PQC migration. Global enterprises expected to follow.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ── XORS.IN REAL-WORLD SECTION ───────────────────────────── -->
+<section class="xors-section" id="xors-implementation">
+    <div class="xors-inner">
+        <div class="xors-header">
+            <div class="label"><i class="fas fa-map-marker-alt"></i> Real-World Implementation · India</div>
+            <h2>PQC in Practice: <span>xors.in</span></h2>
+            <p>While the world is still debating timelines, some organisations are already implementing Post-Quantum Cryptography. <strong>xors.in</strong> is a pioneering example from India — proof that PQC is not just for governments and Silicon Valley tech giants.</p>
+        </div>
+
+        <div class="xors-quote">
+            <p>The transition to quantum-safe cryptography is not a future problem — it's a present-day architectural decision. Every new system built on classical encryption today is technical debt that will need to be migrated tomorrow. xors.in is building with the future in mind.</p>
+        </div>
+
+        <div class="xors-grid">
+            <div class="xors-card">
+                <div class="icon"><i class="fas fa-building"></i></div>
+                <h3>Who is xors.in?</h3>
+                <p>xors.in is an Indian cybersecurity platform dedicated to secure communications, encrypted infrastructure, and next-generation security research. Operating out of India, it serves the growing demand for enterprise-grade security in the Indian digital ecosystem.</p>
+            </div>
+            <div class="xors-card">
+                <div class="icon"><i class="fas fa-atom"></i></div>
+                <h3>PQC Integration</h3>
+                <p>xors.in has integrated NIST-approved PQC algorithms — specifically ML-KEM for key encapsulation and ML-DSA for digital signatures — into their communication and authentication protocols, making their infrastructure resilient against both classical and quantum adversaries.</p>
+            </div>
+            <div class="xors-card">
+                <div class="icon"><i class="fas fa-layer-group"></i></div>
+                <h3>Hybrid Approach</h3>
+                <p>Following best practices, xors.in deploys a <em>hybrid cryptography</em> model — combining classical algorithms (like ECDH) with PQC algorithms (like ML-KEM) in parallel. This ensures security today against classical threats, and security tomorrow against quantum threats.</p>
+            </div>
+            <div class="xors-card">
+                <div class="icon"><i class="fas fa-flag"></i></div>
+                <h3>Why This Matters for India</h3>
+                <p>India processes over 12 billion UPI transactions monthly, and the Aadhaar system holds biometric data for 1.4 billion citizens. xors.in's adoption of PQC demonstrates that Indian technology companies can and must lead the quantum-safe transition domestically.</p>
+            </div>
+            <div class="xors-card">
+                <div class="icon"><i class="fas fa-code-branch"></i></div>
+                <h3>Open Standards Commitment</h3>
+                <p>xors.in aligns with NIST FIPS 203/204/205 standards, ensuring interoperability with global systems and compliance with emerging regulatory frameworks across the US, EU, and India's own data protection legislation.</p>
+            </div>
+            <div class="xors-card">
+                <div class="icon"><i class="fas fa-graduation-cap"></i></div>
+                <h3>Security Research & Education</h3>
+                <p>Beyond implementation, xors.in contributes to the cybersecurity community through research and awareness — making quantum-safe security accessible and understandable for developers, enterprises, and policymakers across India.</p>
+            </div>
+        </div>
+
+        <div class="xors-cta">
+            <a href="https://xors.in" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-external-link-alt"></i> Visit xors.in
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ── WHAT YOU SHOULD DO ──────────────────────────────────── -->
+<section class="section" id="action-items">
+    <h2>What Should You Do?</h2>
+    <p>PQC concerns everyone — from individuals to developers to enterprises. Here's a tailored action plan for each:</p>
+    <div class="action-grid">
+        <div class="action-card individual">
+            <h3><i class="fas fa-user"></i> For Individuals</h3>
+            <ul>
+                <li>Stay informed about PQC developments — this will affect every app you use.</li>
+                <li>Keep software and browsers updated (browser vendors are quietly rolling out PQC).</li>
+                <li>Be cautious about storing highly sensitive data in long-term cloud services not yet PQC-ready.</li>
+                <li>Ask your bank, healthcare provider, and government portals about their PQC migration plans.</li>
+                <li>Prefer services with transparent security practices (like those using open standards).</li>
+            </ul>
+        </div>
+        <div class="action-card developer">
+            <h3><i class="fas fa-code"></i> For Developers</h3>
+            <ul>
+                <li>Learn the NIST PQC standards: ML-KEM, ML-DSA, SLH-DSA, FN-DSA.</li>
+                <li>Use libraries like <code>liboqs</code> (Open Quantum Safe project) to experiment with PQC today.</li>
+                <li>Design systems with <em>crypto-agility</em> — the ability to swap cryptographic algorithms without redesigning the whole system.</li>
+                <li>Prefer hybrid key exchange (classical + PQC) for new TLS implementations.</li>
+                <li>Audit your codebase for hard-coded RSA or ECC usages that will need migration.</li>
+            </ul>
+        </div>
+        <div class="action-card enterprise">
+            <h3><i class="fas fa-building"></i> For Enterprises</h3>
+            <ul>
+                <li>Conduct a <em>Cryptographic Bill of Materials (CBOM)</em> — inventory every place cryptography is used.</li>
+                <li>Identify and prioritise "harvest now, decrypt later" risk areas (financial data, health records, IP).</li>
+                <li>Partner with PQC-ready vendors and service providers (like xors.in for Indian infrastructure).</li>
+                <li>Begin piloting hybrid TLS 1.3 + ML-KEM in internal systems by 2025.</li>
+                <li>Plan for NIST-compliant PQC migration by 2030 — regulatory pressure is coming.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="warning-box">
+        <h3>Don't Wait for "Quantum Supremacy" Headlines</h3>
+        <p>Cryptographic migration takes years, not months. By the time a quantum computer that breaks RSA makes the news, it will be too late to start. The time to act is during the migration window — which is now.</p>
+    </div>
+    <a href="{{ url_for('resources') }}" class="cta-button">Explore PQC Resources</a>
+    <a href="{{ url_for('awareness') }}" class="cta-button" style="margin-left: 20px;">More Awareness Topics</a>
+</section>
+
+<!-- ── FAQ SECTION ────────────────────────────────────────── -->
+<section class="faq-section" id="pqc-faq">
+    <div class="container">
+        <div class="section-title">
+            <h2>Frequently Asked Questions About PQC</h2>
+        </div>
+        <div class="faq-container">
+
+            <div class="faq-item" id="pqc1-item">
+                <input type="checkbox" id="pqc1" class="faq-toggle">
+                <label for="pqc1" class="faq-question">
+                    <span>Will quantum computers really break today's encryption?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </label>
+                <div class="faq-answer">
+                    <p>Yes — but not yet. A cryptographically-relevant quantum computer (CRQC) running Shor's Algorithm would break RSA-2048 in hours. Such machines don't exist today, but experts estimate they could within 10–20 years. The risk is real enough that governments and standards bodies are mandating migration now, because migration itself takes many years.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" id="pqc2-item">
+                <input type="checkbox" id="pqc2" class="faq-toggle">
+                <label for="pqc2" class="faq-question">
+                    <span>Is my WhatsApp or Signal already quantum-safe?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </label>
+                <div class="faq-answer">
+                    <p>Signal announced a PQC upgrade (PQXDH using ML-KEM) in 2023, making it one of the first mass-market apps to deploy PQC for forward secrecy. WhatsApp has not yet announced PQC support. iMessage introduced PQC (PQ3 protocol) in 2024. Most VPNs, banking apps, and websites have not yet migrated.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" id="pqc3-item">
+                <input type="checkbox" id="pqc3" class="faq-toggle">
+                <label for="pqc3" class="faq-question">
+                    <span>Does PQC mean my current passwords are unsafe?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </label>
+                <div class="faq-answer">
+                    <p>Not directly. Passwords are protected by symmetric hashing (bcrypt, Argon2), which quantum computers cannot easily break. PQC primarily affects public-key cryptography — the kind used for encrypted connections (HTTPS/TLS), digital certificates, and key exchange. Your passwords themselves are not at immediate quantum risk, but the systems protecting them (HTTPS connections to login pages) are.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" id="pqc4-item">
+                <input type="checkbox" id="pqc4" class="faq-toggle">
+                <label for="pqc4" class="faq-question">
+                    <span>What is "crypto-agility" and why does it matter?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </label>
+                <div class="faq-answer">
+                    <p>Crypto-agility is the design principle of building systems so that cryptographic algorithms can be swapped out without rebuilding the entire system. It matters because PQC standards will evolve — some algorithms may be broken or improved. Systems designed with crypto-agility can adapt quickly, while rigid systems require expensive re-engineering. Think of it as having a lock that can accept different key types.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" id="pqc5-item">
+                <input type="checkbox" id="pqc5" class="faq-toggle">
+                <label for="pqc5" class="faq-question">
+                    <span>What is India doing about PQC?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </label>
+                <div class="faq-answer">
+                    <p>India's National Cyber Security Policy and CERT-In are aware of the quantum threat, though a formal national PQC mandate is still in development. The Indian defence and research establishments (DRDO, C-DAC, IITs) have active quantum computing and cryptography research programmes. Private sector innovators like <strong>xors.in</strong> are ahead of the curve, implementing NIST PQC standards voluntarily to future-proof their platforms. India's scale of digital infrastructure (UPI, Aadhaar, DigiLocker) makes early adoption critical.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" id="pqc6-item">
+                <input type="checkbox" id="pqc6" class="faq-toggle">
+                <label for="pqc6" class="faq-question">
+                    <span>Are PQC algorithms slower than classical ones?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </label>
+                <div class="faq-answer">
+                    <p>In many cases, yes — but the difference is shrinking rapidly. ML-KEM (Kyber) is remarkably fast and has smaller keys than many expected. The main trade-off is key/signature sizes — ML-DSA signatures are larger than ECDSA signatures. However, for most practical applications (web browsing, app authentication), the performance overhead is negligible. Constrained environments like IoT devices require more careful algorithm selection.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Smooth scroll for in-page links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+
+    // FAQ toggle with JavaScript (enhance the CSS-only approach)
+    document.querySelectorAll('.faq-question').forEach(question => {
+        question.addEventListener('click', () => {
+            const answer = question.nextElementSibling;
+            const icon = question.querySelector('i');
+            if (answer.style.maxHeight && answer.style.maxHeight !== '0px') {
+                answer.style.maxHeight = '0px';
+                answer.style.padding = '0 20px';
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            } else {
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+                answer.style.padding = '0 20px';
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            }
+        });
+        question.nextElementSibling.style.maxHeight = '0px';
+    });
+</script>
+{% endblock %}

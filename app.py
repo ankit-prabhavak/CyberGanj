@@ -256,6 +256,11 @@ def password():
     """Render the password security page."""
     return render_template('password.html')
 
+@app.route('/pqc')
+def pqc():
+    """Render the Post-Quantum Cryptography awareness page."""
+    return render_template('pqc.html')
+
 @app.route('/tools')
 def tools():
     """Render the interactive tools page."""
